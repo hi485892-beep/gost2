@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>환벽(環壁) — 강림 세계관 기록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;400;600;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#0a0908;
+    --bg-panel:#151210;
+    --bg-panel-2:#1c1815;
+    --line:#3a332c;
+    --brass:#c9a961;
+    --brass-dim:#8a7442;
+    --blood:#7a1f1f;
+    --blood-bright:#a8302c;
+    --bone:#e7e0d0;
+    --bone-dim:#a89f8d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-void);
+    color:var(--bone);
+    font-family:'Noto Sans KR',sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--blood);color:var(--bone);}
+
+  /* film grain texture */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:500;
+    opacity:0.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .vignette{
+    position:fixed;inset:0;pointer-events:none;z-index:490;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+  }
+
+  a{color:inherit;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 5vw;
+    font-family:'Noto Serif KR',serif;
+    letter-spacing:0.15em;
+    font-size:13px;
+    color:var(--bone-dim);
+    background:linear-gradient(to bottom, rgba(10,9,8,0.85), transparent);
+  }
+  nav .mark{color:var(--brass);font-weight:600;font-size:15px;letter-spacing:0.25em;}
+  nav .links{display:flex;gap:28px;}
+  nav .links span{cursor:pointer;transition:color .3s;}
+  nav .links span:hover{color:var(--brass);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    height:100vh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    position:relative;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(122,31,31,0.10), transparent 70%),
+      linear-gradient(180deg, #0a0908 0%, #100d0b 60%, #0a0908 100%);
+  }
+  .hero .crack{
+    position:absolute;inset:0;opacity:0.35;pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'Noto Serif KR',serif;
+    color:var(--blood-bright);
+    letter-spacing:0.5em;
+    font-size:12px;
+    margin-bottom:22px;
+    animation:flicker 6s infinite;
+  }
+  @keyframes flicker{
+    0%,92%,100%{opacity:1;}
+    93%{opacity:0.3;}
+    94%{opacity:0.9;}
+    95%{opacity:0.2;}
+    96%{opacity:1;}
+  }
+  h1.title{
+    font-family:'Nanum Myeongjo',serif;
+    font-weight:800;
+    font-size:clamp(58px,12vw,150px);
+    letter-spacing:0.08em;
+    color:var(--bone);
+    line-height:1;
+    text-shadow:0 0 60px rgba(122,31,31,0.35);
+  }
+  .title-sub{
+    margin-top:18px;
+    font-family:'Noto Serif KR',serif;
+    font-weight:200;
+    font-size:clamp(15px,2.4vw,20px);
+    color:var(--bone-dim);
+    letter-spacing:0.08em;
+  }
+  .hero-desc{
+    max-width:560px;
+    margin:34px auto 0;
+    color:var(--bone-dim);
+    font-size:14.5px;
+    line-height:1.9;
+    letter-spacing:0.02em;
+  }
+  .scroll-cue{
+    position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    color:var(--brass-dim);font-size:11px;letter-spacing:0.3em;
+  }
+  .scroll-cue .bar{width:1px;height:38px;background:linear-gradient(var(--brass-dim),transparent);
+    animation:pulse 2.2s infinite;}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* ---------- SECTION shared ---------- */
+  section{
+    position:relative;
+    padding:130px 5vw;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .sec-label{
+    font-family:'Noto Serif KR',serif;
+    color:var(--brass);
+    font-size:12px;
+    letter-spacing:0.4em;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .sec-label::before{content:'';width:26px;height:1px;background:var(--brass-dim);}
+  h2.sec-title{
+    font-family:'Nanum Myeongjo',serif;
+    font-weight:700;
+    font-size:clamp(30px,4vw,48px);
+    color:var(--bone);
+    margin-bottom:36px;
+    letter-spacing:0.03em;
+  }
+  p.lede{
+    font-size:16px;
+    line-height:2.05;
+    color:var(--bone-dim);
+    max-width:760px;
+    letter-spacing:0.01em;
+  }
+
+  /* ---------- OVERVIEW cards ---------- */
+  .card-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);
+    margin-top:56px;
+    border:1px solid var(--line);
+  }
+  .card{
+    background:var(--bg-panel);
+    padding:34px 30px;
+    transition:background .4s;
+  }
+  .card:hover{background:var(--bg-panel-2);}
+  .card .num{
+    font-family:'Noto Serif KR',serif;
+    color:var(--blood-bright);
+    font-size:12px;letter-spacing:0.3em;margin-bottom:16px;display:block;
+  }
+  .card h3{
+    font-family:'Nanum Myeongjo',serif;
+    font-size:22px;color:var(--bone);margin-bottom:14px;font-weight:700;
+  }
+  .card p{
+    font-size:13.5px;line-height:1.85;color:var(--bone-dim);
+  }
+
+  /* ---------- 환벽 / split section ---------- */
+  .split{
+    display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;
+  }
+  .wall-graphic{
+    aspect-ratio:1/1.05;
+    border:1px solid var(--line);
+    position:relative;
+    background:
+      repeating-linear-gradient(90deg, rgba(201,169,97,0.05) 0 2px, transparent 2px 34px),
+      repeating-linear-gradient(0deg, rgba(201,169,97,0.05) 0 2px, transparent 2px 34px),
+      radial-gradient(circle at 50% 45%, rgba(122,31,31,0.12), transparent 60%);
+  }
+  .wall-graphic .ring{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    border:1px solid var(--brass-dim);
+    border-radius:50%;
+  }
+  .wall-graphic .ring.r1{width:86%;height:86%;opacity:.55;}
+  .wall-graphic .ring.r2{width:60%;height:60%;opacity:.4;}
+  .wall-graphic .ring.r3{width:34%;height:34%;opacity:.9;border-color:var(--brass);}
+  .wall-graphic .center-mark{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-family:'Noto Serif KR',serif;color:var(--bone);
+    font-size:13px;letter-spacing:0.3em;text-align:center;
+  }
+  .wall-graphic .tag{
+    position:absolute;font-family:'Noto Serif KR',serif;font-size:10.5px;
+    letter-spacing:0.2em;color:var(--brass-dim);
+  }
+  .tag.t1{top:6%;left:8%;}
+  .tag.t2{bottom:6%;right:8%;}
+
+  .rule-list{list-style:none;margin-top:26px;}
+  .rule-list li{
+    padding:18px 0;border-top:1px solid var(--line);
+    display:flex;gap:20px;font-size:14px;color:var(--bone-dim);line-height:1.8;
+  }
+  .rule-list li:last-child{border-bottom:1px solid var(--line);}
+  .rule-list li .mk{color:var(--brass);flex-shrink:0;font-family:'Noto Serif KR',serif;}
+
+  /* ---------- 벽사대 section ---------- */
+  .relic-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:50px;
+  }
+  .relic{
+    background:var(--bg-panel);padding:28px 22px;text-align:center;
+  }
+  .relic .glyph{
+    font-family:'Nanum Myeongjo',serif;font-size:34px;color:var(--brass);margin-bottom:14px;
+  }
+  .relic h4{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--bone);margin-bottom:10px;letter-spacing:0.05em;}
+  .relic p{font-size:12px;color:var(--bone-dim);line-height:1.7;}
+
+  .warn-box{
+    margin-top:60px;border:1px solid var(--blood);
+    background:linear-gradient(90deg, rgba(122,31,31,0.12), transparent);
+    padding:24px 28px;font-size:13.5px;color:var(--bone-dim);line-height:1.9;
+  }
+  .warn-box b{color:var(--blood-bright);font-family:'Noto Serif KR',serif;letter-spacing:0.05em;}
+
+  /* ---------- GRADE LADDER (signature) ---------- */
+  .ladder-intro{max-width:760px;margin-bottom:60px;}
+  .ladder{
+    display:flex;flex-direction:column;
+    border-top:1px solid var(--line);
+  }
+  .grade-row{
+    display:grid;
+    grid-template-columns:70px 190px 1fr 220px;
+    align-items:center;
+    gap:26px;
+    padding:22px 18px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    cursor:default;
+    transition:background .35s;
+  }
+  .grade-row:hover{background:rgba(201,169,97,0.035);}
+  .grade-row .g-level{
+    font-family:'Nanum Myeongjo',serif;
+    font-weight:800;
+    font-size:30px;
+    color:var(--bone-dim);
+    text-align:center;
+  }
+  .grade-row .g-name{
+    font-family:'Noto Serif KR',serif;
+    font-size:16px;
+    letter-spacing:0.06em;
+    color:var(--bone);
+  }
+  .grade-row .g-desc{
+    font-size:13px;line-height:1.75;color:var(--bone-dim);
+  }
+  .g-bar-wrap{display:flex;align-items:center;gap:12px;}
+  .g-bar-track{
+    flex:1;height:5px;background:var(--bg-panel-2);position:relative;overflow:hidden;border:1px solid var(--line);
+  }
+  .g-bar-fill{height:100%;background:linear-gradient(90deg, var(--brass-dim), var(--blood-bright));}
+  .g-pct{font-family:'Noto Serif KR',serif;font-size:11px;color:var(--bone-dim);width:34px;text-align:right;}
+
+  /* grade 7 -> 1 escalating color emphasis */
+  .grade-row[data-tier="1"] .g-level{color:var(--blood-bright);text-shadow:0 0 22px rgba(168,48,44,0.6);}
+  .grade-row[data-tier="1"] .g-name{color:var(--blood-bright);}
+  .grade-row[data-tier="2"] .g-level{color:var(--blood-bright);}
+  .grade-row[data-tier="3"] .g-level{color:#b5563a;}
+  .grade-row[data-tier="4"] .g-level{color:var(--brass);}
+  .grade-row[data-tier="5"] .g-level{color:var(--brass);}
+  .grade-row[data-tier="6"] .g-level{color:var(--brass-dim);}
+  .grade-row[data-tier="7"] .g-level{color:var(--bone-dim);}
+
+  .ladder-foot{
+    display:flex;justify-content:space-between;margin-top:20px;font-size:11px;
+    letter-spacing:0.2em;color:var(--brass-dim);font-family:'Noto Serif KR',serif;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:70px 5vw 50px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    color:var(--bone-dim);
+    font-size:12px;
+    letter-spacing:0.15em;
+    font-family:'Noto Serif KR',serif;
+  }
+  footer .mark{color:var(--brass);letter-spacing:0.3em;margin-bottom:14px;display:block;font-size:14px;}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:880px){
+    .card-row{grid-template-columns:1fr;}
+    .split{grid-template-columns:1fr;}
+    .relic-row{grid-template-columns:repeat(2,1fr);}
+    .grade-row{grid-template-columns:44px 1fr;grid-template-areas:"lvl name" "lvl desc" "lvl bar";row-gap:8px;}
+    .grade-row .g-level{grid-area:lvl;}
+    .grade-row .g-name{grid-area:name;}
+    .grade-row .g-desc{grid-area:desc;}
+    .g-bar-wrap{grid-area:bar;}
+    nav .links{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<nav>
+  <div class="mark">環壁 · 강림기록</div>
+  <div class="links">
+    <span onclick="document.getElementById('sec-world').scrollIntoView()">세계관</span>
+    <span onclick="document.getElementById('sec-wall').scrollIntoView()">환벽</span>
+    <span onclick="document.getElementById('sec-squad').scrollIntoView()">벽사대</span>
+    <span onclick="document.getElementById('sec-grade').scrollIntoView()">등급분류</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">그것은 이야기가 아니었다</div>
+  <h1 class="title">강림</h1>
+  <div class="title-sub">降 臨 — 하늘이 갈라진 자리에서 걸어 나온 것들</div>
+  <p class="hero-desc">
+    이해할 수 없는 존재, '괴이'가 세상에 스며든 지 오래.
+    살아남은 사람들은 서울, 한강을 낀 좁은 땅에 회색 방벽을 세우고
+    스스로를 '환벽'이라 이름 붙였다. 지금 이 기록은 그 안에서,
+    그리고 그 너머에서 살아가는 이들을 위한 것이다.
+  </p>
+  <div class="scroll-cue"><span>SCROLL</span><div class="bar"></div></div>
+</div>
+
+<!-- WORLD OVERVIEW -->
+<section id="sec-world">
+  <div class="sec-label">WORLDVIEW</div>
+  <h2 class="sec-title">괴이(怪異), 이해할 수 없는 것들</h2>
+  <p class="lede">
+    괴이는 하나의 종이 아니다. 인간을 서슴없이 해치는 개체가 있는가 하면,
+    길을 잃은 이를 가만히 지켜보다 돕는 개체도 있다. 선악의 문제가 아니다.
+    문제는 그것들의 존재 자체가 인간의 인지 범위를 벗어나 있다는 것 —
+    형체를 오래 눈에 담으면 정신이 무너지고, 그것이 목소리를 내면 고막이 찢어진다.
+    선의조차 인간에게는 재앙이 되는 존재. 그것이 괴이다.
+  </p>
+
+  <div class="card-row">
+    <div class="card">
+      <span class="num">01 — 기원</span>
+      <h3>강림(降臨)</h3>
+      <p>대기가 하늘처럼 갈라지는 곳에서 괴이가 걸어 나오는 현상. 정확한 원인은 아직 밝혀지지 않았다. 사람들이 지어낸 괴담인 줄 알았던 오래된 이야기들은, 사실 조금씩 새어 나오던 강림의 흔적이었다.</p>
+    </div>
+    <div class="card">
+      <span class="num">02 — 위협</span>
+      <h3>인지의 재앙</h3>
+      <p>괴이의 형체를 오래 눈에 담은 인간은 예외 없이 미쳐간다. 헛소리를 중얼거리다 자해를 하고, 끝내 말을 잃는다. 목소리를 내는 개체 앞에서는 고막이 그 파장을 견디지 못한다.</p>
+    </div>
+    <div class="card">
+      <span class="num">03 — 대응</span>
+      <h3>벽사구(辟邪具)</h3>
+      <p>무당의 방울, 부적, 오래된 의식 도구. 하급 개체에게는 통하지만 상위 개체 앞에서는 잠시 시선을 끄는 소음일 뿐이다. 그래도 인류가 처음으로 손에 쥔 '싸울 수 있는 방법'이다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WALL / ENVIRONMENT -->
+<section id="sec-wall">
+  <div class="sec-label">SANCTUARY</div>
+  <h2 class="sec-title">환벽(環壁), 마지막으로 남은 땅</h2>
+  <div class="split">
+    <div>
+      <p class="lede" style="margin-bottom:0;">
+        강림이 전 세계적으로 빈번해지자 인류는 빠르게 줄어들었다. 살아남은 사람들은
+        넓은 땅을 감당할 수 없다는 것을 본능적으로 알았다. 대한민국 생존자들은
+        한강을 낀 서울로 모여들었고, 3년에 걸쳐 도심 외곽을 두르는 방벽 — 환벽을 세웠다.
+      </p>
+      <ul class="rule-list">
+        <li><span class="mk">禁</span> 밤에 불빛이 새는 창을 열어두는 것은 금기다. 무엇이 그 빛을 보고 다가올지 아무도 모른다.</li>
+        <li><span class="mk">藏</span> 오래된 지하철역은 물자 창고이자 대피소지만, 몇몇 구간은 완전히 봉쇄되었다.</li>
+        <li><span class="mk">境</span> 방벽 안쪽은 삶이 이어지는 곳, 바깥쪽은 되찾아야 할 빼앗긴 땅이다.</li>
+      </ul>
+    </div>
+    <div class="wall-graphic">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="center-mark">한강<br>서울</div>
+      <span class="tag t1">03Y — 축조</span>
+      <span class="tag t2">環壁</span>
+    </div>
+  </div>
+</section>
+
+<!-- SQUAD / RELICS -->
+<section id="sec-squad">
+  <div class="sec-label">RESISTANCE</div>
+  <h2 class="sec-title">벽사대(辟邪隊), 방울을 든 사람들</h2>
+  <p class="lede">
+    5년 전 국립중앙박물관 지하 수장고, 녹슨 방울 하나가 괴이를 흩어지게 만들었다.
+    그날 이후 전국에서 벽사구를 모으고, 그것을 다룰 이들을 훈련시켰다.
+    벽사대가 창설된 지 5년, 환벽 안의 사람들은 더 이상 웅크리고만 있지 않다.
+  </p>
+
+  <div class="relic-row">
+    <div class="relic"><div class="glyph">鈴</div><h4>무당의 방울</h4><p>오래 흔들수록 손이 떨리고, 나중엔 목소리를 잃은 사용자의 기록이 남아있다.</p></div>
+    <div class="relic"><div class="glyph">符</div><h4>부적</h4><p>전국을 뒤져 모은 오래된 의식 도구 중 하나. 하급 개체 앞에서만 효력을 낸다.</p></div>
+    <div class="relic"><div class="glyph">劍</div><h4>목검</h4><p>알아볼 수 없는 문자가 새겨진 유물. 방울과 함께 발견된 최초의 벽사구.</p></div>
+    <div class="relic"><div class="glyph">鐘</div><h4>사찰의 종</h4><p>특정 사찰에서 전해지던 종소리 역시 벽사구로서 채집, 훈련에 쓰인다.</p></div>
+  </div>
+
+  <div class="warn-box">
+    <b>주의 —</b> 벽사구는 만능이 아니다. 강한 힘을 쓸수록 사용자의 몸과 정신이 깎여나간다.
+    그리고 그 효력은 어디까지나 하급 개체에 한정된다. 상위 개체 앞에서는 방울 소리도, 부적도
+    그저 잠시 시선을 끄는 소음에 지나지 않는다.
+  </div>
+</section>
+
+<!-- GRADE LADDER -->
+<section id="sec-grade">
+  <div class="sec-label">CLASSIFICATION</div>
+  <h2 class="sec-title">괴이 등급 분류</h2>
+  <div class="ladder-intro">
+    <p class="lede">
+      7급에서 1급으로 올라갈수록 벽사대의 대응 범위를 벗어난다. 아래로 갈수록
+      '싸울 수 있는' 존재, 위로 갈수록 '피할 수밖에 없는' 존재다.
+    </p>
+  </div>
+
+  <div class="ladder">
+
+    <div class="grade-row" data-tier="1">
+      <div class="g-level">1급</div>
+      <div class="g-name">멸망(滅亡)급</div>
+      <div class="g-desc">침식 범위가 도시, 나아가 지역 전체로 확장 가능한 최상위 개체. 직접 관측하고 생존한 사례가 없다. 위성 관측 이상 현상과 통신 두절 지역으로만 존재가 추정된다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:100%"></div></div><span class="g-pct">관측불가</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="2">
+      <div class="g-level">2급</div>
+      <div class="g-name">침식(浸蝕)급</div>
+      <div class="g-desc">반경 수 킬로미터에서 시간, 중력, 인과율 같은 기초 법칙 자체를 뒤튼다. 벽사대 전 병력을 투입해도 승산이 없으며, 유일한 대응은 구역 봉쇄와 회피뿐이다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:92%"></div></div><span class="g-pct">전병력</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="3">
+      <div class="g-level">3급</div>
+      <div class="g-name">각성(覺醒)급</div>
+      <div class="g-desc">독자적인 '목소리'를 낼 만큼 완전한 형태를 갖췄다. 발성만으로 반경 내 인간의 고막을 파열시킨다. 이 등급부터는 우호적인 개체조차 존재 자체로 치명적이다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:76%"></div></div><span class="g-pct">위험</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="4">
+      <div class="g-level">4급</div>
+      <div class="g-name">와해(瓦解)급</div>
+      <div class="g-desc">존재를 인지하는 것만으로 인간의 정신이 급속히 무너진다. 물리적 파괴력도 상당해 건물 자체를 붕괴시킬 수 있다. 벽사대 다수 인원과 결계 병행이 필수다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:60%"></div></div><span class="g-pct">다수투입</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="5">
+      <div class="g-level">5급</div>
+      <div class="g-name">지배(支配)급</div>
+      <div class="g-desc">지하철역, 상가 블록 등 구역 단위에 영향을 미친다. 해당 구역 안에서는 물리 법칙 일부가 개체에게 유리하게 작용한다. 소대 단위 대응이 기본, 단독 교전은 금지.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:44%"></div></div><span class="g-pct">소대단위</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="6">
+      <div class="g-level">6급</div>
+      <div class="g-name">배회(徘徊)급</div>
+      <div class="g-desc">방 하나, 통로 하나 정도를 벗어나지 못하지만 그 안에서는 인간을 상회하는 물리력을 발휘한다. 대원 한둘로도 대응 가능하나 방심하면 사상자가 난다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:26%"></div></div><span class="g-pct">1~2인</span></div>
+    </div>
+
+    <div class="grade-row" data-tier="7">
+      <div class="g-level">7급</div>
+      <div class="g-name">미물(微物)급</div>
+      <div class="g-desc">영향 범위가 반경 수 미터 내외. 물리적 파괴력도 미미해 벽사구 한 번이면 소멸시킬 수 있다. 환벽 근방에서 가장 흔하게 발견되는 개체들이 여기 속한다.</div>
+      <div class="g-bar-wrap"><div class="g-bar-track"><div class="g-bar-fill" style="width:10%"></div></div><span class="g-pct">단독대응</span></div>
+    </div>
+
+  </div>
+  <div class="ladder-foot"><span>7급 · 흔함</span><span>1급 · 미확인</span></div>
+</section>
+
+<footer>
+  <span class="mark">環 壁</span>
+  이 기록은 살아남은 자들을 위해 계속해서 갱신된다.
+</footer>
+
+</body>
+</html>
