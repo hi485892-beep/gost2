@@ -348,77 +348,9 @@
   .entity-card:hover .open-cue::after{transform:translateX(6px);}
   .entity-card:hover .open-cue{color:var(--brass);}
 
-  /* ---------- MODAL ---------- */
-  .modal-overlay{
-    position:fixed;inset:0;z-index:1000;
-    background:rgba(6,5,4,0.88);
-    backdrop-filter:blur(3px);
-    display:none;align-items:flex-start;justify-content:center;
-    padding:6vh 5vw;overflow-y:auto;
-  }
-  .modal-overlay.active{display:flex;}
-  .modal-box{
-    background:var(--bg-panel);border:1px solid var(--brass-dim);
-    max-width:880px;width:100%;position:relative;
-    box-shadow:0 30px 90px rgba(0,0,0,0.6);
-    margin-bottom:6vh;
-  }
-  .modal-close{
-    position:absolute;top:18px;right:22px;z-index:5;
-    font-family:'Noto Serif KR',serif;font-size:13px;letter-spacing:0.2em;
-    color:var(--bone-dim);cursor:pointer;border:1px solid var(--line);
-    padding:8px 14px;background:var(--bg-panel);transition:all .3s;
-  }
-  .modal-close:hover{color:var(--brass);border-color:var(--brass-dim);}
-  .modal-hero{
-    position:relative;aspect-ratio:16/8;overflow:hidden;
-  }
-  .modal-hero img{width:100%;height:100%;object-fit:cover;object-position:top center;}
-  .modal-hero::after{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(10,9,8,0.1) 40%, var(--bg-panel) 100%);
-  }
-  .modal-hero .htitle{
-    position:absolute;left:34px;bottom:26px;z-index:2;
-  }
-  .modal-hero .htitle .form-no{
-    font-family:'Noto Serif KR',serif;font-size:11px;letter-spacing:0.3em;color:var(--brass);
-    margin-bottom:8px;display:block;
-  }
-  .modal-hero .htitle h3{
-    font-family:'Nanum Myeongjo',serif;font-size:clamp(26px,4vw,38px);color:var(--bone);
-    font-weight:800;text-shadow:0 0 30px rgba(0,0,0,0.8);
-  }
-  .modal-body{padding:8px 40px 46px;}
-  .rep-block{margin-top:36px;}
-  .rep-block .rep-h{
-    font-family:'Noto Serif KR',serif;color:var(--brass);font-size:12px;
-    letter-spacing:0.3em;margin-bottom:16px;display:flex;align-items:center;gap:12px;
-  }
-  .rep-block .rep-h::before{content:'';width:20px;height:1px;background:var(--brass-dim);}
-  .rep-table{width:100%;border-collapse:collapse;border-top:1px solid var(--line);}
-  .rep-table tr{border-bottom:1px solid var(--line);}
-  .rep-table td{padding:14px 4px;font-size:13px;line-height:1.75;vertical-align:top;}
-  .rep-table td.k{
-    width:150px;color:var(--brass-dim);font-family:'Noto Serif KR',serif;
-    font-size:12px;letter-spacing:0.04em;white-space:nowrap;padding-right:20px;
-  }
-  .rep-table td.v{color:var(--bone-dim);}
-  .rep-table td.v .note{display:block;color:var(--bone-dim);opacity:0.65;font-size:11.5px;margin-top:4px;}
-  .rep-note{
-    margin-top:18px;border-left:2px solid var(--blood);padding-left:16px;
-    font-size:12.5px;color:var(--bone-dim);line-height:1.8;opacity:0.85;
-  }
-  .rep-signoff{
-    margin-top:44px;padding-top:22px;border-top:1px dashed var(--line);
-    font-family:'Noto Serif KR',serif;font-size:11.5px;color:var(--bone-dim);
-    letter-spacing:0.05em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  }
 
   @media(max-width:720px){
     .entity-row{grid-template-columns:1fr;}
-    .modal-body{padding:8px 22px 36px;}
-    .rep-table td.k{width:110px;font-size:11px;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -641,7 +573,7 @@
 
   <div class="entity-row">
 
-    <div class="entity-card" onclick="openReport('rep-bloomgold')">
+    <div class="entity-card" onclick="location.href='report-bloomgold.html'">
       <div class="thumb"><img src="images/entity-bloomgold.png" alt="BLOOM-GOLD 관측 이미지"></div>
       <span class="code-tag">BLOOM-GOLD</span>
       <span class="grade-tag">추정 2급</span>
@@ -652,7 +584,7 @@
       </div>
     </div>
 
-    <div class="entity-card" onclick="openReport('rep-moonsong')">
+    <div class="entity-card" onclick="location.href='report-moonsong.html'">
       <div class="thumb"><img src="images/entity-moonsong.png" alt="달빛 아래 노래 부르는 여인 관측 이미지"></div>
       <span class="code-tag">달빛 아래 노래 부르는 여인</span>
       <span class="grade-tag">2급 · 1급 재분류 상정</span>
@@ -666,172 +598,10 @@
   </div>
 </section>
 
-<!-- MODAL: BLOOM-GOLD -->
-<div class="modal-overlay" id="rep-bloomgold" onclick="closeReportOnOverlay(event,'rep-bloomgold')">
-  <div class="modal-box">
-    <span class="modal-close" onclick="closeReport('rep-bloomgold')">닫기 ✕</span>
-    <div class="modal-hero">
-      <img src="images/entity-bloomgold.png" alt="BLOOM-GOLD">
-      <div class="htitle">
-        <span class="form-no">강림체 관측 보고서 · 양식번호 KG-07</span>
-        <h3>BLOOM-GOLD · 화원의 여인</h3>
-      </div>
-    </div>
-    <div class="modal-body">
-
-      <div class="rep-block">
-        <div class="rep-h">기초 식별 정보</div>
-        <table class="rep-table">
-          <tr><td class="k">관측 코드명</td><td class="v">BLOOM-GOLD</td></tr>
-          <tr><td class="k">최초 목격 일시 / 장소</td><td class="v">아파트 단지 중앙에 있는, 하늘색과 하얀색 두 가지 꽃이 피어난 화원에서 포착됨. 농구공만 한 금색 구슬을 가지고 있었음.</td></tr>
-          <tr><td class="k">형체 안정성</td><td class="v">고정형</td></tr>
-          <tr><td class="k">발성 여부</td><td class="v">유 (청각 손상 보고 없음)</td></tr>
-          <tr><td class="k">추정 등급</td><td class="v">2급</td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">전투 능력치 (교전 기록 기반 추정)</div>
-        <table class="rep-table">
-          <tr><td class="k">물리 파괴력</td><td class="v">★★★☆☆</td></tr>
-          <tr><td class="k">이동 속도</td><td class="v">치타급<span class="note">평소에는 인간과 같은 일반적인 속도로 움직이지만, 흥미를 느끼는 대상이 생기면 그곳으로 이동할 때 치타급의 속도를 보인다.</span></td></tr>
-          <tr><td class="k">영향 범위 반경</td><td class="v">불명<span class="note">형태 왜곡·법칙 붕괴가 관측되는 범위</span></td></tr>
-          <tr><td class="k">재생/재구성 속도</td><td class="v">피격당한 적 없음</td></tr>
-          <tr><td class="k">벽사구 반응성</td><td class="v">무반응</td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">정신 오염 관련 (매우 중요 — 관측자 안전 최우선)</div>
-        <table class="rep-table">
-          <tr><td class="k">시각 노출 한계 시간</td><td class="v">10m 이내로 접근하면 이상이 없으나, 10m를 벗어난 상태로 있으면 30분 후부터 이상 증상이 나타나기 시작한다.</td></tr>
-          <tr><td class="k">광기 진행 속도</td><td class="v">보통</td></tr>
-          <tr><td class="k">청각 위험도 · 발성 시 반경</td><td class="v">없음</td></tr>
-          <tr><td class="k">2차 감염 여부</td><td class="v">없음</td></tr>
-        </table>
-        <div class="rep-note">※ 본 항목 기재를 위한 근접 관측은 반드시 벽사대 입회 하에 진행하며, 단독 관측 시 발생하는 피해에 대해 연구소는 책임지지 않는다.</div>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">성향 및 행동 패턴</div>
-        <table class="rep-table">
-          <tr><td class="k">인간에 대한 태도</td><td class="v">우호 추정</td></tr>
-          <tr><td class="k">반복 행동 패턴</td><td class="v">꽃으로 화관을 만들어 인간들에게 '가질래?'라고 물어봄. 거절하더라도 공격적인 반응을 보이지 않음.</td></tr>
-          <tr><td class="k">특이 사항</td><td class="v">화원에 금색 구슬을 두고, 식탁에 턱을 괴듯 그 위에 턱을 괸 채 인간들을 관찰함.</td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">담당 관측관 소견</div>
-        <p class="lede" style="font-size:14px;line-height:1.9;">
-          화원에 있는 꽃을 뜯어도 반응 없으나, 금색 구슬을 왜 들고 있냐고 질문하자 무기로 변형시킬 수 있다고 답함.
-        </p>
-      </div>
-
-      <div class="rep-signoff">
-        <span>작성자 소속/직급: ________</span>
-        <span>최종 검토: 벽사대 3소대장 ________</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: MOONSONG -->
-<div class="modal-overlay" id="rep-moonsong" onclick="closeReportOnOverlay(event,'rep-moonsong')">
-  <div class="modal-box">
-    <span class="modal-close" onclick="closeReport('rep-moonsong')">닫기 ✕</span>
-    <div class="modal-hero">
-      <img src="images/entity-moonsong.png" alt="달빛 아래 노래 부르는 여인">
-      <div class="htitle">
-        <span class="form-no">강림체 관측 보고서 · 양식번호 KG-07</span>
-        <h3>달빛 아래 노래 부르는 여인</h3>
-      </div>
-    </div>
-    <div class="modal-body">
-
-      <div class="rep-block">
-        <div class="rep-h">기초 식별 정보</div>
-        <table class="rep-table">
-          <tr><td class="k">관측 코드명</td><td class="v">달빛 아래 노래 부르는 여인</td></tr>
-          <tr><td class="k">최초 목격 일시 / 장소</td><td class="v">해당 년도 10월, 제주도 상공을 관찰중이던 드론에 의해 포착. 제주도를 차지하고 자라난 커다란 은빛 세계수 위 — 비활성 상태의 개체 발견.</td></tr>
-          <tr><td class="k">형체 안정성</td><td class="v">고정형<span class="note">은발의 인간형. 형태 변화 미관측.</span></td></tr>
-          <tr><td class="k">발성 여부</td><td class="v">유 (청각 손상 보고 있음)</td></tr>
-          <tr><td class="k">추정 등급</td><td class="v">2급<span class="note">단, 영향 범위가 정의된 최상위 기준을 상회하여 1급 재분류 안건 상정. 물리 파괴력 지표만으로는 실제 위협도를 반영하지 못하는 것으로 판단됨. 등급 산정 기준 자체의 재검토가 필요한 사례.</span></td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">전투 능력치 (교전 기록 기반 추정)</div>
-        <table class="rep-table">
-          <tr><td class="k">물리 파괴력</td><td class="v">★☆☆☆☆<span class="note">직접 교전 사례 전무</span></td></tr>
-          <tr><td class="k">이동 속도</td><td class="v">상당히 느린 편<span class="note">다리 부상자와 속도가 같음</span></td></tr>
-          <tr><td class="k">영향 범위 반경</td><td class="v">불명<span class="note">세계수의 뿌리가 울산까지 뻗어 있는 것을 확인. 영향력의 범위가 어디까지인지 알 수 없음.</span></td></tr>
-          <tr><td class="k">재생/재구성 속도</td><td class="v">불명<span class="note">직접 교전 사례 전무</span></td></tr>
-          <tr><td class="k">벽사구 반응성</td><td class="v">무반응<span class="note">방울 소리에 아무 반응 없었음. 방울 소리에 맞춰 노래를 불렀다고 함.</span></td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">정신 오염 관련 (매우 중요 — 관측자 안전 최우선)</div>
-        <table class="rep-table">
-          <tr><td class="k">시각 노출 한계 시간</td><td class="v">눈을 감고 있는 개체 특성상 이례적으로 낮음. 관측자 1명 15분 이상 원거리 관측 후에도 이상 없음 확인 (단, 표본 부족).</td></tr>
-          <tr><td class="k">광기 진행 속도</td><td class="v">느림</td></tr>
-          <tr><td class="k">청각 위험도 · 발성 시 반경</td><td class="v">200m 내 고막 손상 확인. 다만, 개체가 노래를 부를 때 한정.</td></tr>
-          <tr><td class="k">2차 감염 여부</td><td class="v">노래를 들은 관찰자가 오염되어, 치료를 받고 나서도 한동안 노래를 흥얼거렸다고 함.</td></tr>
-        </table>
-        <div class="rep-note">※ 본 항목 기재를 위한 근접 관측은 반드시 벽사대 입회 하에 진행하며, 단독 관측 시 발생하는 피해에 대해 연구소는 책임지지 않는다.</div>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">성향 및 행동 패턴</div>
-        <table class="rep-table">
-          <tr><td class="k">인간에 대한 태도</td><td class="v">중립</td></tr>
-          <tr><td class="k">반복 행동 패턴</td><td class="v">세계수로 추정되는 거목 위에 누워서 비활성 상태로 있거나, 노래(추정)를 멈추지 않는 패턴이 잦음.</td></tr>
-          <tr><td class="k">특이 사항</td><td class="v">가끔 개체로 추정되는 강림자가 서울 한복판으로 들어와 산책중인 것 같다는 목격담이 들림. 소대를 출동시키면 바람처럼 사라져버리는 것 같음. 인간에게 우호적임은 모르겠으나, 상당히 호기심을 품고 있는 듯한 개체.</td></tr>
-        </table>
-      </div>
-
-      <div class="rep-block">
-        <div class="rep-h">담당 관측관 소견</div>
-        <p class="lede" style="font-size:14px;line-height:1.9;">
-          제주도에 있는 세계수에 직접 접촉한 결과, 공격 의사는 없었으나 개체가 순식간에 관찰자 옆에 나타남. 그러나 관찰자가 세계수의 가지를 뜯어가려 하자, 관찰자는 곧 세계수 가지에 꿰뚫려 사망함. 또한 울산까지 뻗어나간 세계수를 파괴하려 시도하자, 그 시도한 대상 역시 사망함.
-        </p>
-      </div>
-
-      <div class="rep-signoff">
-        <span>작성자 소속/직급: ________</span>
-        <span>최종 검토: 벽사대 3소대장 ________</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <footer>
   <span class="mark">環 壁</span>
   이 기록은 살아남은 자들을 위해 계속해서 갱신된다.
 </footer>
-
-<script>
-  function openReport(id){
-    document.getElementById(id).classList.add('active');
-    document.body.style.overflow='hidden';
-  }
-  function closeReport(id){
-    document.getElementById(id).classList.remove('active');
-    document.body.style.overflow='';
-  }
-  function closeReportOnOverlay(e,id){
-    if(e.target.id===id) closeReport(id);
-  }
-  document.addEventListener('keydown', function(e){
-    if(e.key==='Escape'){
-      document.querySelectorAll('.modal-overlay.active').forEach(function(el){
-        el.classList.remove('active');
-      });
-      document.body.style.overflow='';
-    }
-  });
-</script>
 
 </body>
 </html>
